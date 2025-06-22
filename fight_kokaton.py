@@ -4,39 +4,6 @@ import sys
 import time
 import pygame as pg
 
-class Beam:
-    """
-    ビームに関するクラス
-    """
-    def __init__(self, bird):
-        """
-        ビーム画像Surfaceを生成し、こうかとんの右隣に配置する
-        引数 bird: こうかとん（Birdクラスのインスタンス）
-        """
-        # 1. beam.pngをロードして画像Surfaceを生成 
-        self.img = pg.image.load("fig/beam.png")
-        self.rct = self.img.get_rect()
-        
-        # 2. ビームの初期位置を、こうかとんの右側に設定 
-        #    こうかとんの中心y座標にビームの中心y座標を合わせる
-        #    こうかとんの右端x座標にビームの左端x座標を合わせる
-        self.rct.centery = bird.rct.centery
-        self.rct.left = bird.rct.right
-
-        # 3. ビームの速度を、横方向（x軸）に5、縦方向（y軸）に0と設定 
-        self.vx, self.vy = +5, 0
-
-    def update(self, screen: pg.Surface):
-        """
-        ビームを速度vxにしたがって移動させる
-        引数 screen: 表示対象のスクリーンSurface
-        """
-        # 4. 設定した速度に応じて座標を更新 
-        self.rct.move_ip(self.vx, self.vy)
-
-        # 5. 更新後の座標にビームの画像をスクリーンにblit（描画） 
-        screen.blit(self.img, self.rct)
-        
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -116,29 +83,38 @@ class Bird:
         screen.blit(self.img, self.rct)
 
 
-# ビームクラス:
-    # """
-    # こうかとんが放つビームに関するクラス
-    # """
-    # def イニシャライザ(self, bird:"Bird"):
-    #     """
-    #     ビーム画像Surfaceを生成する
-    #     引数 bird：ビームを放つこうかとん（Birdインスタンス）
-    #     """
-    #     self.img = pg.画像のロード(f"fig/beam.png")
-    #     self.rct = self.img.Rectの取得()
-    #     self.ビームの中心縦座標 = こうかとんの中心縦座標
-    #     self.ビームの左座標 = こうかとんの右座標
-    #     self.vx, self.vy = +5, 0
+class Beam:
+    """
+    ビームに関するクラス
+    """
+    def __init__(self, bird):
+        """
+        ビーム画像Surfaceを生成し、こうかとんの右隣に配置する
+        引数 bird: こうかとん（Birdクラスのインスタンス）
+        """
+        # 1. beam.pngをロードして画像Surfaceを生成 
+        self.img = pg.image.load("fig/beam.png")
+        self.rct = self.img.get_rect()
+        
+        # 2. ビームの初期位置を、こうかとんの右側に設定 
+        #    こうかとんの中心y座標にビームの中心y座標を合わせる
+        #    こうかとんの右端x座標にビームの左端x座標を合わせる
+        self.rct.centery = bird.rct.centery
+        self.rct.left = bird.rct.right
 
-    # def update(self, screen: pg.Surface):
-    #     """
-    #     ビームを速度ベクトルself.vx, self.vyに基づき移動させる
-    #     引数 screen：画面Surface
-    #     """
-    #     if check_bound(self.rct) == (True, True):
-    #         self.rct.move_ip(self.vx, self.vy)
-    #         screen.blit(self.img, self.rct)    
+        # 3. ビームの速度を、横方向（x軸）に5、縦方向（y軸）に0と設定 
+        self.vx, self.vy = +5, 0
+
+    def update(self, screen: pg.Surface):
+        """
+        ビームを速度vxにしたがって移動させる
+        引数 screen: 表示対象のスクリーンSurface
+        """
+        # 4. 設定した速度に応じて座標を更新 
+        self.rct.move_ip(self.vx, self.vy)
+
+        # 5. 更新後の座標にビームの画像をスクリーンにblit（描画） 
+        screen.blit(self.img, self.rct)  
 
 
 class Bomb:
