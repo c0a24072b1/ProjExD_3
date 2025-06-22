@@ -157,6 +157,13 @@ def main():
     beam = None  # ゲーム初期化時にはビームは存在しない
     clock = pg.time.Clock()
     tmr = 0
+    # ... (main関数内のwhileループ) ...
+    # 練習2で追加する箇所
+    if beam is not None and bomb is not None:
+        if beam.rct.colliderect(bomb.rct):
+            # 衝突したら両方のインスタンスをNoneにする
+            beam = None
+            bomb = None
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -166,17 +173,20 @@ def main():
             #     beam = Beam(bird)            
         screen.blit(bg_img, [0, 0])
         
-        if bird.rct.colliderect(bomb.rct):
-            # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
-            bird.change_img(8, screen)
-            pg.display.update()
-            time.sleep(1)
-            return
+        if bomb is not None:  # Noneチェックを追加
+            if bird.rct.colliderect(bomb.rct):
+                # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
+                bird.change_img(8, screen)
+                pg.display.update()
+                time.sleep(1)
+                return
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
-        # beam.update(screen)   
-        bomb.update(screen)
+        if bomb is not None:  # Noneチェックを追加
+            bomb.update(screen)
+        if beam is not None:  # Noneチェックを追加
+            beam.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
