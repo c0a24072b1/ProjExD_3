@@ -124,7 +124,7 @@ class Score:
         """
         スコア表示用のフォントや初期値を設定する
         """
-        self.fonto = pg.font.SysFont("hgp創英角ポップ体", 30) # フォントを指定 
+        self.fonto = pg.font.SysFont("microsoftjhenghei", 30) # フォントを指定 
         self.color = (0, 0, 255) # 文字色を青に指定 
         self.score = 0 # スコアの初期値を0に設定 
         self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color) # 初期スコアの文字列Surfaceを生成 
