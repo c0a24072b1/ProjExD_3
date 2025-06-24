@@ -8,6 +8,7 @@ import pygame as pg
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
 NUM_OF_BOMBS = 5 
+NUM_OF_BOMBS = 5  # この行を追加
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -211,6 +212,8 @@ def main():
     beams = []
     exps = []
 
+    bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)] # bomb変数をbombsリストに変更
+    beam = None
     clock = pg.time.Clock()
     tmr = 0
     
@@ -221,6 +224,28 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 # 複数のビームをリストに追加する
                 beams.append(Beam(bird))
+                beam = Beam(bird)
+        
+        screen.blit(bg_img, [0, 0])
+        
+        for i, bomb in enumerate(bombs):
+            # ビームと爆弾の衝突判定
+            if beam is not None:
+                if beam.rct.colliderect(bomb.rct):
+                    beam = None
+                    bombs[i] = None
+                    bird.change_img(6, screen)
+
+            # こうかとんと爆弾の衝突判定
+            if bomb is not None:
+                if bird.rct.colliderect(bomb.rct):
+                    bird.change_img(8, screen)
+                    pg.display.update()
+                    time.sleep(1)
+                    return
+        
+        # forループの外でリストを更新
+        bombs = [bomb for bomb in bombs if bomb is not None]
 
         screen.blit(bg_img, [0, 0])
 
@@ -262,6 +287,11 @@ def main():
         score.update(screen)
 
         pg.display.update()
+        if beam is not None:
+            beam.update(screen)
+            
+        pg.display.update() # 画面更新の呼び出し
+        
         tmr += 1
         clock.tick(50)
 
