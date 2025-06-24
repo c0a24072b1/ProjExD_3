@@ -7,8 +7,7 @@ import pygame as pg
 
 WIDTH = 1100  # ゲームウィンドウの幅
 HEIGHT = 650  # ゲームウィンドウの高さ
-NUM_OF_BOMBS = 5 
-NUM_OF_BOMBS = 5  # この行を追加
+NUM_OF_BOMBS = 5   # 爆弾の数
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -52,7 +51,7 @@ class Bird:
     def __init__(self, xy: tuple[int, int]):
         """
         こうかとん画像Surfaceを生成する
-        引数 xy：こうかとん画像の初期位置座標タプル
+        引数 xy：こうかとん画像の初期位置座標タプル.
         """
         self.img = __class__.imgs[(+5, 0)]
         self.rct: pg.Rect = self.img.get_rect()
