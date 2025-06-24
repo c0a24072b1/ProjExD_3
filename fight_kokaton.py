@@ -116,6 +116,28 @@ class Beam:
         # 5. 更新後の座標にビームの画像をスクリーンにblit（描画） 
         screen.blit(self.img, self.rct)  
 
+class Score:
+    """
+    スコアを表示するクラス
+    """
+    def __init__(self):
+        """
+        スコア表示用のフォントや初期値を設定する
+        """
+        self.fonto = pg.font.SysFont("hgp創英角ポップ体", 30) # フォントを指定 
+        self.color = (0, 0, 255) # 文字色を青に指定 
+        self.score = 0 # スコアの初期値を0に設定 
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color) # 初期スコアの文字列Surfaceを生成 
+        self.rct = self.img.get_rect()
+        self.rct.center = (100, HEIGHT - 50) # 表示位置を画面左下に設定 
+
+    def update(self, screen: pg.Surface):
+        """
+        現在のスコアで文字列Surfaceを再生成し、画面に描画する
+        引数 screen: 描画対象のスクリーンSurface
+        """
+        self.img = self.fonto.render(f"スコア: {self.score}", 0, self.color) # 現在のスコアで文字列Surfaceを生成 
+        screen.blit(self.img, self.rct) # スクリーンにblit
 
 class Bomb:
     """
@@ -155,6 +177,7 @@ def main():
     bird = Bird((300, 200))
     bomb = Bomb((255, 0, 0), 10)
     beam = None  # ゲーム初期化時にはビームは存在しない
+    score = Score()
     clock = pg.time.Clock()
     tmr = 0
    
@@ -168,10 +191,10 @@ def main():
                 beam = Beam(bird)
         screen.blit(bg_img, [0, 0])
         # ... (main関数内のwhileループ) ...
-            # 練習2で追加する箇所
         if beam is not None and bomb is not None:
             if beam.rct.colliderect(bomb.rct):
                 bird.change_img(6, screen)
+                score.score += 1
                 beam = None
                 bomb = None
         if bomb is not None:  # Noneチェックを追加
@@ -188,6 +211,7 @@ def main():
             bomb.update(screen)
         if beam is not None:  # Noneチェックを追加
             beam.update(screen)
+        score.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
