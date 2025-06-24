@@ -168,7 +168,6 @@ def main():
                 beam = Beam(bird)
         screen.blit(bg_img, [0, 0])
         # ... (main関数内のwhileループ) ...
-            # 練習2で追加する箇所
         if beam is not None and bomb is not None:
             if beam.rct.colliderect(bomb.rct):
                 bird.change_img(6, screen)
