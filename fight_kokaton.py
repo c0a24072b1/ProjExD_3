@@ -171,7 +171,7 @@ def main():
             # 練習2で追加する箇所
         if beam is not None and bomb is not None:
             if beam.rct.colliderect(bomb.rct):
-            # 衝突したら両方のインスタンスをNoneにする
+                bird.change_img(6, screen)
                 beam = None
                 bomb = None
         if bomb is not None:  # Noneチェックを追加
